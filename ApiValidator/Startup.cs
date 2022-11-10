@@ -1,3 +1,4 @@
+using ApiValidator.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,7 +39,9 @@ namespace ApiValidator
                                         .Select(v => v.ErrorMessage)
                                         .ToList();
 
-                            return new BadRequestObjectResult(errors);
+                            var responseResult = new GenericResult<object>(null, 400, "Bad Request: One or more validation failures have occurred.", errors);
+
+                            return new BadRequestObjectResult(responseResult);
                         };
                     });
 
