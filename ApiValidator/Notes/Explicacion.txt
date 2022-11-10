@@ -1,0 +1,31 @@
+﻿Por default, si enviamos el siguiente body:
+
+{
+  "name": "",
+  "email": "myEmail",
+  "dateofBirth": "2022-11-10T13:16:22.672Z"
+}
+
+Nos da como respuesta un 400 (Bad Request), con el siquiente Body de respuesta:
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "00-4e612141c17cea4b96a3e4a7ed1c20e5-407eeb890c000a4f-00",
+  "errors": {
+    "Name": [
+      "El nombre no puede ser nulo."
+    ],
+    "Email": [
+      "Email inválido."
+    ],
+    "DateofBirth": [
+      "Es menor de edad."
+    ]
+  }
+}
+
+
+=================================================================================
+
+APLICANDO EL CUSTOM FILTER EL ERROR 400 (Bad Request), tendria que ser algo como:
