@@ -33,10 +33,7 @@ namespace ApiValidator
                         //options.SuppressModelStateInvalidFilter = true;
                         options.InvalidModelStateResponseFactory = actionContext =>
                         {
-                            var errors = actionContext.ModelState.Values.Where(v => v.Errors.Count > 0)
-                                        .SelectMany(v => v.Errors)
-                                        .Select(v => v.ErrorMessage)
-                                        .ToList();
+                            var errors = actionContext.ModelState;
 
                             return new BadRequestObjectResult(errors);
                         };
