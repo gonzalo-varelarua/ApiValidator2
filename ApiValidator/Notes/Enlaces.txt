@@ -1,0 +1,5 @@
+﻿https://stackoverflow.com/questions/54942192/how-can-i-customize-the-error-response-in-web-api-with-net-core
+
+https://stackoverflow.com/questions/1352948/how-to-get-all-errors-from-asp-net-mvc-modelstate
+
+https://stackoverflow.com/questions/21654669/how-can-i-centralize-modelstate-validation-in-asp-net-mvc-using-action-filters
