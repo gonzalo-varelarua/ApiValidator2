@@ -27,7 +27,21 @@ namespace ApiValidator
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                    .ConfigureApiBehaviorOptions(options =>
+                    {
+                        //options.SuppressModelStateInvalidFilter = true;
+                        options.InvalidModelStateResponseFactory = actionContext =>
+                        {
+                            var errors = actionContext.ModelState.Values.Where(v => v.Errors.Count > 0)
+                                        .SelectMany(v => v.Errors)
+                                        .Select(v => v.ErrorMessage)
+                                        .ToList();
+
+                            return new BadRequestObjectResult(errors);
+                        };
+                    });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiValidator", Version = "v1" });
