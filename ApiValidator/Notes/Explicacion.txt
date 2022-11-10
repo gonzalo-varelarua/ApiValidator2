@@ -29,3 +29,10 @@ Nos da como respuesta un 400 (Bad Request), con el siquiente Body de respuesta:
 =================================================================================
 
 APLICANDO EL CUSTOM FILTER EL ERROR 400 (Bad Request), tendria que ser algo como:
+
+
+[
+  "Name: El nombre debe tener al menos 3 caracteres.",
+  "Email: Email inválido.",
+  "DateofBirth: Es menor de edad."
+]
