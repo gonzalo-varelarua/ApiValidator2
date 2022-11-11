@@ -9,8 +9,16 @@ namespace ApiValidator.Controllers
     public class CustomersController : ControllerBase
     {
 
-        [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateCustomer create)
+        [HttpPost("standard")]
+        public async Task<ActionResult> PostStandardResult([FromBody] CreateCustomer create)
+        {
+
+            return Created("uri", create);
+        }
+
+        [HttpPost("custom")]
+        [ValidateModel]
+        public async Task<ActionResult> PostCustomResult([FromBody] CreateCustomer create)
         {
 
             return Created("uri", create);

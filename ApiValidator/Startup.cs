@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace ApiValidator
@@ -27,20 +28,19 @@ namespace ApiValidator
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers()
-                    .ConfigureApiBehaviorOptions(options =>
-                    {
-                        //options.SuppressModelStateInvalidFilter = true;
-                        options.InvalidModelStateResponseFactory = actionContext =>
-                        {
-                            var errors = actionContext.ModelState.Values.Where(v => v.Errors.Count > 0)
-                                        .SelectMany(v => v.Errors)
-                                        .Select(v => v.ErrorMessage)
-                                        .ToList();
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var result = new ValidationFailedResult(context.ModelState);
 
-                            return new BadRequestObjectResult(errors);
-                        };
-                    });
+                    // TODO: add `using System.Net.Mime;` to resolve MediaTypeNames
+                    result.ContentTypes.Add(MediaTypeNames.Application.Json);
+                    result.ContentTypes.Add(MediaTypeNames.Application.Xml);
+
+                    return result;
+                };
+            });
 
             services.AddSwaggerGen(c =>
             {
