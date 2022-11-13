@@ -28,20 +28,7 @@ namespace ApiValidator
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers().ConfigureApiBehaviorOptions(options =>
-            {
-                options.InvalidModelStateResponseFactory = context =>
-                {
-                    var result = new ValidationFailedResult(context.ModelState);
-
-                    // TODO: add `using System.Net.Mime;` to resolve MediaTypeNames
-                    result.ContentTypes.Add(MediaTypeNames.Application.Json);
-                    result.ContentTypes.Add(MediaTypeNames.Application.Xml);
-
-                    return result;
-                };
-            });
-
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiValidator", Version = "v1" });
