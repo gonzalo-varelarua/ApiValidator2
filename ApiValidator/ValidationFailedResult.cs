@@ -34,8 +34,7 @@ namespace ApiValidator
             {
                 Message = $"Hay {n} errores: " + string.Join("; ", list);
             }
-            //ErrorMessage = Message;
-            //Data = Message;
+            Status = false;
         }
     }
 }
