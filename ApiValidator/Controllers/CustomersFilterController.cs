@@ -9,10 +9,10 @@ namespace ApiValidator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [CustomResultFilter]
     public class CustomersFilterController : ControllerBase
     {
         [HttpPost("withfilter")]
+        [CustomResult(Order = int.MinValue)]
         public ActionResult PostFilterResult([FromBody] CreateCustomer create)
         {
 

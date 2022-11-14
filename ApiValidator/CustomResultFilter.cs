@@ -7,18 +7,16 @@ using System;
 
 namespace ApiValidator
 {
-    public class CustomResultFilter : ControllerAttribute, IActionFilter
-    {
-        public void OnActionExecuted(ActionExecutedContext context)
-        {
-        }
 
-        public void OnActionExecuting(ActionExecutingContext context)
+    public class CustomResultAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             if (!context.ModelState.IsValid)
             {
                 context.Result = new ValidationFailedResult(context.ModelState);
             }
+            base.OnActionExecuting(context);
         }
     }
 
