@@ -1,7 +1,9 @@
 ﻿using ApiValidator.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Linq;
 
 namespace ApiValidator.Controllers
 {
@@ -9,6 +11,12 @@ namespace ApiValidator.Controllers
     [ApiController]
     public class CustomersCustomController : Controller
     {
+        [HttpPost("custom")]
+        public ActionResult PostCustomResult([FromBody] CreateCustomer create)
+        {
+
+            return Created("uri", create);
+        }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if (!context.ModelState.IsValid)
@@ -17,13 +25,37 @@ namespace ApiValidator.Controllers
             }
             base.OnActionExecuting(context);
         }
-
-        [HttpPost("custom")]
-        public ActionResult PostCustomResult([FromBody] CreateCustomer create)
+    }
+    public class ValidationFailedResult : ObjectResult
+    {
+        public ValidationFailedResult(ModelStateDictionary modelState)
+            : base(new ValidationResultModel(modelState))
         {
-
-            return Created("uri", create);
+            StatusCode = StatusCodes.Status400BadRequest;
         }
-
+    }
+    public class ValidationResultModel
+    {
+        public bool Status { get; set; }
+        public string Message { get; set; }
+        public string Data { get; set; }
+        public ValidationResultModel(ModelStateDictionary modelState)
+        {
+            var list = modelState.Values.Where(v => v.Errors.Count > 0)
+                        .SelectMany(v => v.Errors)
+                        .Select(v => v.ErrorMessage)
+                        .ToList();
+            var n = list.Count;
+            if (n == 1)
+            {
+                Message = "Hay un error";
+                Data = list[0];
+            }
+            else
+            {
+                Message = $"Hay {n} errores";
+                Data = string.Join("; ", list);
+            }
+        }
     }
 }
