@@ -17,7 +17,8 @@ namespace ApiValidator
     {
         public bool Status { get; set; }
         public string Message { get; set; }
-        public string Data { get; set; }
+        //public string ErrorMessage { get; set; }
+        //public string Data { get; set; }
         public ValidationResultModel(ModelStateDictionary modelState)
         {
             var list = modelState.Values.Where(v => v.Errors.Count > 0)
@@ -27,14 +28,14 @@ namespace ApiValidator
             var n = list.Count;
             if (n == 1)
             {
-                Message = "Hay un error";
-                Data = list[0];
+                Message = "Hay un error: " + list[0];
             }
             else
             {
-                Message = $"Hay {n} errores";
-                Data = string.Join("; ", list);
+                Message = $"Hay {n} errores: " + string.Join("; ", list);
             }
+            //ErrorMessage = Message;
+            //Data = Message;
         }
     }
 }
